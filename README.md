@@ -1,5 +1,4 @@
 # NN
-Neural Networks
 
 Machine Perception and Cognitive Robotics Laboratory
 
