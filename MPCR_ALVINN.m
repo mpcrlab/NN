@@ -105,7 +105,7 @@ while sse > 0.1
     figure(3)
     surf(act2)
     view(0,80)
-    imagesc(act2)m
+    imagesc(act2)
 
 
     drawnow()
