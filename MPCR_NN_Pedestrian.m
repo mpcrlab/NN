@@ -82,7 +82,7 @@ w2 = 0.001*(1-2*rand(n2,n3));
 dw1 = zeros(size(w1));
 dw2 = zeros(size(w2));
 
-L = 0.0005;       % Learning
+L = 0.0001;       % Learning
 M = 0.8;          % Momentum
 
 p=[];
@@ -90,7 +90,7 @@ p=[];
 for loop=1:10000
     
     
-    act1 = [af((0.1*trainpattern) * w1) bias];
+    act1 = [af((trainpattern) * w1) bias];
     act2 =  af((act1) * w2);
     
     error = traincategory - act2;
