@@ -108,6 +108,7 @@ while sse > 0.1
     imagesc(act2)
 
 
+    
     drawnow()
  
     delta_w2 = error .* act2 .* (1-act2);
