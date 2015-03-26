@@ -42,14 +42,12 @@ def drawplots():
     
   return
 ########################################################
-  
-  
+
 Data=scipy.io.loadmat('/Users/mpcr/Desktop/NN/alvinn_data.mat')
 pattern=Data['CVPatterns']
-pattern=pattern.transpose()
+pattern=pattern.transpose().astype(float) 
 category=Data['CVDesired']
-category=category.transpose()
-
+category=category.transpose().astype(float) 
 
 r=np.random.permutation(pattern.shape[0])
 
@@ -83,16 +81,20 @@ plot.ion()
 plot.show()
 
 
-for loop in range(100):
-  act1=np.concatenate((np.matrix(np.array(af(np.dot(0.1*pattern,w1)))),bias), axis=1)
-  act2=np.matrix(np.array(af(act1*w2)))
+for loop in range(10):
+
+  act1=np.concatenate((np.squeeze(np.array(af(np.dot(1*pattern,w1)))),bias), axis=1)
+  act2=np.squeeze(np.array(af(np.dot(act1,w2))))
+    
   error = category - act2
   sse=np.power(error,2).sum()
-  delta_w2=np.multiply(error,np.multiply(act2,(1-act2)))
-  delta_w1=np.multiply(delta_w2*w2.transpose(),np.multiply(act1,(1-act1)))
+  
+  delta_w2=error*act2*(1-act2)
+  delta_w1=np.dot(delta_w2,w2.transpose())*act1*(1-act1)
   delta_w1=np.delete(delta_w1,-1,1)
-  dw1=L*pattern.transpose()*delta_w1+np.multiply(M,dw1)
-  dw2=L*act1.transpose()*delta_w2+np.multiply(M,dw2)
+  
+  dw1=np.dot(L,np.dot(pattern.transpose(),delta_w1))+M*dw1
+  dw2=np.dot(L,np.dot(act1.transpose(),delta_w2))+M*dw2
   w1=w1+dw1
   w2=w2+dw2
   drawplots()
@@ -102,4 +104,3 @@ for loop in range(100):
 plot.close("all")
 
 exit
-
