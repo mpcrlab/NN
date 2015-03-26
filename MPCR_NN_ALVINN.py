@@ -83,7 +83,7 @@ plot.show()
 
 for loop in range(10):
 
-  act1=np.concatenate((np.squeeze(np.array(af(np.dot(1*pattern,w1)))),bias), axis=1)
+  act1=np.concatenate((np.squeeze(np.array(af(np.dot(0.1*pattern,w1)))),bias), axis=1)
   act2=np.squeeze(np.array(af(np.dot(act1,w2))))
     
   error = category - act2
