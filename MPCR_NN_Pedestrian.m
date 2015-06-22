@@ -72,7 +72,7 @@ trainpattern = [trainpattern bias];
 testpattern = [testpattern bias];
 validpattern = [validpattern bias];
 
-n1 = size(trainpattern,2)
+n1 = size(trainpattern,2);
 n2 = 2;   %n2-1
 n3 = size(traincategory,2);
 
@@ -87,7 +87,7 @@ M = 0.8;          % Momentum
 
 p=[];
 
-for loop=1:10000
+for loop=1:1000
     
     
     act1 = [af((trainpattern) * w1) bias];
