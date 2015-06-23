@@ -100,11 +100,11 @@ p=0.01;
 
 errorplot=[];
 
-for loop=1:1000
+for loop=1:5000
     
 %   b=1-p*abs(randn());
 %   b=0.25
-    b=1;
+    b=.1;
     
     act1 = [af((b*trainpattern) * w1) bias];
     act2 =  af((act1) * w2);
