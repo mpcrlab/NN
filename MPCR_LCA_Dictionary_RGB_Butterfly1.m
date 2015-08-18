@@ -11,15 +11,18 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %------------------------------------------------------%
 % Locally Competitive Algorithms Demonstration
-% Using natural images data, see:
-% Rozell, Christopher J., et al.
+% Using RBG image data, see:
+%
+% 1)Rozell, Christopher J., et al.
 % "Sparse coding via thresholding and
 % local competition in neural circuits."
-% Neural computation 20.10 (2008): 2526-2563.
+%
+% 2)Whiten Images in Matlab
+% http://xcorr.net/2013/04/30/whiten-images-in-matlab/
 %
 %------------------------------------------------------%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function HahnLCA_Dictionary_RGB_30
+function MPCR_LCA_Dictionary_RGB_Butterfly1
 
 clear all
 close all
@@ -28,11 +31,9 @@ clc
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 ps=16;
 
-
 for k=1:6
     
     foldernumber=k;
-    
     
     switch foldernumber
         case 1
@@ -108,27 +109,11 @@ for k=1:6
     spectr = sqrt(mean(abs(fX).^2)); %Mean spectrum
     X = ifft(ifft(bsxfun(@times,fX,1./spectr),[],2),[],3); %whitened X
     
-    %         N=size(image,1);
-    %         [fx,fy]=meshgrid(-N/2:N/2-1,-N/2:N/2-1);
-    %         imagew=real(ifft2(fft2(image).*fftshift(sqrt(fx.^2+fy.^2).*exp(-(sqrt(fx.^2+fy.^2)/(0.4*N)).^4))));
-    %         IMAGES=sqrt(0.1)*IMAGES/sqrt(mean(var(IMAGES)));
-    
     save(['HahnColorPatches_' num2str(ps) '_Butterflies_' foldername '_whitened1.mat'],'X','-v7.3')
-    
-    
     
 end
 
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
-
-
-
 
 s=0.1;
 patch_size=256*3;
@@ -137,12 +122,10 @@ batch_size=100;
 nk=6;
 W = randn(patch_size, neurons, nk);
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 for k=1:6
-    
-    
+      
     foldernumber=k;
     
     switch foldernumber
@@ -173,24 +156,15 @@ for k=1:6
     
     X1=X0(:,1:floor(end/2));
     
-    
-    
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-    
-    
-    
     for j=1:500
-        
         
         r=randperm(size(X1,2));
         
         X=X1(:,r(1:batch_size));
         
-        
-        
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        
         
         W(:,:,k) = W(:,:,k)*diag(1./sqrt(sum(W(:,:,k).^2,1)));
         
@@ -207,16 +181,11 @@ for k=1:6
             
         end
         
-        
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        
         
         W(:,:,k) = W(:,:,k) + (5/batch_size)*((X-W(:,:,k)*a)*a');
         
-        
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        
-        
         
         imagesc(filterplotcolor(W(:,:,k)')), drawnow()
         
@@ -228,15 +197,6 @@ end
 
 save('Butterfly_LCA_W.mat','W')
 
-
-
-
-
-
-
-
-
-
 load('Butterfly_LCA_W.mat')
 
 
@@ -246,18 +206,14 @@ neurons=256;
 batch_size=300;
 nk=size(W,3);
 
-figure(1)
-pause
-
 for k=1:nk
     subplot(2,3,k)
     imagesc(filterplotcolor(W(:,:,k)')), drawnow()
 end
 
-
+figure(1)
 drawnow()
-
-
+pause
 
 WW=[];
 
@@ -267,11 +223,7 @@ for k=1:size(W,3)
     
 end
 
-
-
-% WW=randn(size(WW));
-
-
+% WW=randn(size(WW)); %Randomize weights to test
 
 d=[];
 
@@ -308,28 +260,23 @@ for k=1:nk
     
     X2=X0(:,floor(end/2)+1:end);
     
-    
-    
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    
-    
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+     
     WW = WW*diag(1./sqrt(sum(WW.^2,1)));
     G = WW'*WW - eye(neurons*nk);
     
     for j=1:20
-        
         
         r=randperm(size(X2,2));
         
         X=X2(:,r(1:batch_size));
         
         for i=1:100
-        imagesc(reshape(X(:,i),16,16,3))
-        pause
+            imagesc(reshape(X(:,i),16,16,3))
+            pause
         end
         
-        
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
         b = WW'*X;
         
@@ -343,24 +290,17 @@ for k=1:nk
             
         end
         
-        
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        
-        
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         
         a1=sum(a.^2,2);
         
         b=[];
         
-        
         for j=1:nk
-            
             
             b=[b sum(abs(a1(1+(j-1)*neurons:j*neurons)))];
             
-            
         end
-        
         
         subplot(121)
         bar(b)
@@ -382,41 +322,13 @@ for k=1:nk
         
         drawnow()
         
-        
-        
     end
     
-    
-    
 end
 
-
-    h(2)/sum(h)
-
+h(2)/sum(h)
 
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -438,12 +350,6 @@ end
 
 
 
-
-
-
-
-
-
 function [D] = filterplot(X)
 
 [m,n] = size(X);
@@ -462,8 +368,4 @@ for j = 1:r
 end
 
 end
-
-
-
-
 
