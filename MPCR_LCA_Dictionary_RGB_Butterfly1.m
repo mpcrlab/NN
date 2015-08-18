@@ -318,15 +318,13 @@ for k=1:nk
         
         subplot(122)
         
-        h=hist(d,0:1);
+        hist(d,0:1)
         
         drawnow()
         
     end
     
 end
-
-h(2)/sum(h)
 
 end
 
