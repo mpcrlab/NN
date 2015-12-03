@@ -159,35 +159,6 @@ end
 
 
 
-
-function x = WTA(x)
-
-
-for i=1:size(x,1)
-    
-    [a,b]=max(x(i,:));
-    
-    x(i,:)=1:size(x,2)==b;
-    
-end
-
-
-end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function [X,Y,Z] = Hahn_landscapes(i)
 
 
@@ -197,15 +168,7 @@ resolution=20;
 
 [X,Y] = meshgrid(-size_search_space:size_search_space/resolution:size_search_space, -size_search_space:size_search_space/resolution:size_search_space);
 
-
-
 Z=fitness(i,X,Y);
-
-
-
-
-
-
 
 end
 
@@ -292,9 +255,6 @@ switch c
     otherwise
         disp('derp');
 end
-
-
-
 
 
 
