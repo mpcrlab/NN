@@ -16,7 +16,7 @@ clear all
 close all
 clc
 
-[X,Y,Z] = Hahn_landscapes(3);
+[X,Y,Z] = Hahn_landscapes(2);
 
 X = X - min(X(:));
 X = X / max(X(:));
@@ -27,7 +27,7 @@ Y = Y / max(Y(:));
 Z = Z - min(Z(:));
 Z = Z / max(Z(:));
 
-Z=0.5*Z;
+Z=Z/norm(Z)+0.5;
 
 figure(1)
 surf(X,Y,Z,'EdgeColor','none')
@@ -70,8 +70,8 @@ n1 = size(pattern,2);   %Set the Number of Input Nodes Equal to Number of Pixels
 n2 = 100;   %n2-1        %Number of Hidden Nodes (Free Parameter)
 n3 = size(category,2);  %Set the Number of Output Nodes Equal to the Number of Distinct Categories {left,forward,right}
 
-w1 = 0.005*(1-2*rand(n1,n2-1)); %Randomly Initialize Hidden Weights
-w2 = 0.005*(1-2*rand(n2,n3));   %Randomly Initialize Output Weights
+w1 = 0.05*(1-2*rand(n1,n2-1)); %Randomly Initialize Hidden Weights
+w2 = 0.05*(1-2*rand(n2,n3));   %Randomly Initialize Output Weights
 
 dw1 = zeros(size(w1));          %Set Initial Hidden Weight Changes to Zero
 dw2 = zeros(size(w2));          %Set Initial Output Changes to Zero
