@@ -76,7 +76,7 @@ w2 = 0.005*(1-2*rand(n2,n3));   %Randomly Initialize Output Weights
 dw1 = zeros(size(w1));          %Set Initial Hidden Weight Changes to Zero
 dw2 = zeros(size(w2));          %Set Initial Output Changes to Zero
 
-L = 0.0001;         % Learning Rate    %Avoid Overshooting Minima
+L = 0.000001;         % Learning Rate    %Avoid Overshooting Minima
 M = 0.9;            % Momentum         %Smooths out the learning landscape
 
 sse=size(pattern,1);  % Set Error Large so that Loop Starts
@@ -127,12 +127,23 @@ scatter3(testpattern(:,1),testpattern(:,2),testcategory, 'ko')
 view(loop/10,30)
 hold off
 title('Testing')
-sse = sum(sum(error.^2)) % Error Reports - Not used by Algorithm
-sseplot=[sseplot sse];
-% pause(0.05)
-
 drawnow()
 
+
+sse = sum(sum(error.^2)) % Error Reports - Not used by Algorithm
+sseplot=[sseplot sse];
+
+
+%Adaptive Learning Rate
+if (sseplot(end-1)-sseplot(end)) < 0
+    
+    L=0.9*L
+    
+else
+
+    L=1.01*L
+    
+end
     
     
 end %end for loom
